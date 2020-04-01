@@ -3,7 +3,9 @@ import { Form,
          Label,
          TextAreaField,
          Submit,
-         FieldError } from '@redwoodjs/web'
+         FieldError,
+         useMutation
+        } from '@redwoodjs/web'
 
 import BlogLayout from 'src/layouts/BlogLayout'
 
@@ -16,15 +18,28 @@ const CREATE_CONTACT = gql`
 `
 
 const ContactPage = (props) => {
-  const [create] = useMutation(CREATE_CONTACT)
+  const [create, { loading, error }] = useMutation(CREATE_CONTACT, {
+    onCompleted: () => {
+      alert('Thank you for your submission!')
+    }
+  })
 
   const onSubmit = (data) => {
+    create({ variables: { input: data }})
+
     console.log(data)
   }
 
   return (
     <BlogLayout>
       <Form onSubmit={onSubmit} validation={{ mode: 'onBlur' }}>
+        {error && (
+          <div style={{ color: 'red' }}>
+            {"We couldn't send your message: "}
+            {error.message}
+          </div>
+        )}
+
         <Label
           htmlFor="name"
           errorStyle={{ display: 'block', color: 'red'}}
@@ -76,7 +91,7 @@ const ContactPage = (props) => {
         />
         <FieldError name="message" style={{ color: 'red' }} />
 
-        <Submit style={{ display: 'block' }}>Save</Submit>
+        <Submit style={{ display: 'block' }} disabled={loading}>Save</Submit>
       </Form>
     </BlogLayout>
   )
