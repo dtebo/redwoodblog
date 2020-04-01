@@ -4,8 +4,11 @@ import { Form,
          TextAreaField,
          Submit,
          FieldError,
+         FormError,
          useMutation
         } from '@redwoodjs/web'
+
+import { useForm } from 'react-hook-form'
 
 import BlogLayout from 'src/layouts/BlogLayout'
 
@@ -18,9 +21,12 @@ const CREATE_CONTACT = gql`
 `
 
 const ContactPage = (props) => {
+  const formMethods = useForm({ mode: 'onBlur' })
+
   const [create, { loading, error }] = useMutation(CREATE_CONTACT, {
     onCompleted: () => {
       alert('Thank you for your submission!')
+      formMethods.reset()
     }
   })
 
@@ -32,13 +38,15 @@ const ContactPage = (props) => {
 
   return (
     <BlogLayout>
-      <Form onSubmit={onSubmit} validation={{ mode: 'onBlur' }}>
-        {error && (
-          <div style={{ color: 'red' }}>
-            {"We couldn't send your message: "}
-            {error.message}
-          </div>
-        )}
+      <Form
+        onSubmit={onSubmit}
+        error={error}
+        formMethods={formMethods}
+      >
+        <FormError
+          error={error}
+          wrapperStyle={{ color: 'red', backgroundColor: 'lavenderblush' }}
+        />
 
         <Label
           htmlFor="name"
