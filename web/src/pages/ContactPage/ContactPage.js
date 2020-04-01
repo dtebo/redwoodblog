@@ -1,4 +1,10 @@
-import { Form, TextField, TextAreaField, Submit, FieldError } from '@redwoodjs/web'
+import { Form,
+         TextField,
+         Label,
+         TextAreaField,
+         Submit,
+         FieldError } from '@redwoodjs/web'
+
 import BlogLayout from 'src/layouts/BlogLayout'
 
 const ContactPage = (props) => {
@@ -9,22 +15,49 @@ const ContactPage = (props) => {
   return (
     <BlogLayout>
       <Form onSubmit={onSubmit}>
-        <label htmlFor="name" style={{ display: 'block' }}>
+        <Label
+          htmlFor="name"
+          errorStyle={{ display: 'block', color: 'red'}}
+          style={{ display: 'block' }}
+        >
           Name
-        </label>
-        <TextField name="name" style={{ display: 'block' }} errorStyle={{ display: 'block', borderColor: 'red' }} validation={{ required: true }} />
+        </Label>
+        <TextField
+          name="name"
+          style={{ display: 'block' }}
+          errorStyle={{ display: 'block', borderColor: 'red' }}
+          validation={{ required: true }}
+        />
         <FieldError name="name" style={{ color: 'red' }} />
 
-        <label htmlFor="email" style={{ display: 'block'}}>
+        <Label
+          htmlFor="email"
+          errorStyle={{ display: 'block', color: 'red'}}
+          style={{ display: 'block'}}
+        >
           Email
-        </label>
-        <TextField name="email" style={{ display: 'block'}} errorStyle={{ display: 'block', borderColor: 'red' }} validation={{ required: true }} />
+        </Label>
+        <TextField
+          name="email"
+          style={{ display: 'block'}}
+          errorStyle={{ display: 'block', borderColor: 'red' }}
+          validation={{ required: true }}
+        />
         <FieldError name="email" style={{ color: 'red' }} />
 
-        <label htmlFor="message" style={{ display: 'block' }}>
+        <Label
+          htmlFor="message"
+          errorStyle={{ display: 'block', color: 'red'}}
+          style={{ display: 'block' }}
+        >
           Message
-        </label>
-        <TextAreaField name="message" style={{ display: 'block'}} errorStyle={{ display: 'block', borderColor: 'red' }} validation={{ required: true }} />
+        </Label>
+        <TextAreaField
+          name="message"
+          style={{ display: 'block'}}
+          errorStyle={{ display: 'block', borderColor: 'red' }}
+          validation={{ required: true }}
+        />
         <FieldError name="message" style={{ color: 'red' }} />
 
         <Submit style={{ display: 'block' }}>Save</Submit>
